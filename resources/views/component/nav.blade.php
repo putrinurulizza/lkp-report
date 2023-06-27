@@ -22,19 +22,14 @@
             </ul>
         </nav>
 
-        <a class="nav-link dropdown-toggle p-1 fw-bold" role="button" data-bs-toggle="dropdown"
-            aria-expanded="false">
+        <a class="nav-link dropdown-toggle p-1 fw-bold" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Putri Nurul Izza
         </a>
         <ul class="dropdown-menu bg-transparent border-0">
-            <li class="mb-2"><a class="nav-link nav-dd {{ Request::is('dashboard/profile') ? 'active' : '' }}"
+            <li class="mb-2"><a
+                    class="nav-link nav-dd has-arrow {{ Request::is('dashboard/profile') ? 'active' : '' }}"
                     href="profile">
                     Profile
-                </a></li>
-            <li class="mb-2"><a
-                    class="nav-link nav-dd has-arrow {{ Request::is('dashboard/settings') ? 'active' : '' }}"
-                    href="settings">
-                    Settings
                 </a></li>
             <hr>
             <li class="mb-2">

@@ -15,5 +15,6 @@
 {{-- css custom --}}
 <link rel="stylesheet" href=" {{ asset('css/cover.css') }} ">
 
+
 {{-- Font Awesome Icons --}}
 <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.1.2/css/all.css">

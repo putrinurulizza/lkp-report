@@ -6,7 +6,6 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KegiatanController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
@@ -36,8 +35,6 @@ Route::prefix('/dashboard')->group(function () {
     Route::resource('/user', UserController::class)->except(['create', 'show', 'edit'])->middleware('auth');
 
     Route::resource('/profile', ProfileController::class)->except(['create', 'show', 'edit'])->middleware('auth');
-
-    Route::resource('/settings', SettingsController::class)->except(['create', 'show', 'edit'])->middleware('auth');
 });
 
 Route::fallback(function () {

@@ -2,7 +2,7 @@
 @section('title', 'Home')
 
 @section('content')
-    <main class="px-3 text-center ">
+    <main class="px-3 text-center">
         <h2>Laporan Kinerja Pegawai</h2>
         <p class="lead fs-5">Tambahkan kegiatan anda hari ini melalui button di bawah!</p>
         <p class="lead">
