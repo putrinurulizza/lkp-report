@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('kegiatans', function (Blueprint $table) {
             $table->id();
             $table->foreignId('id_user')->constrained('users')->onUpdate('cascade')->onDelete('restrict');
+            $table->date('tanggal');
             $table->string('kegiatan');
             $table->string('hasil');
             $table->timestamps();

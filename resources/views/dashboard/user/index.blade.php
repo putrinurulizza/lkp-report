@@ -1,5 +1,5 @@
 @extends('component.main')
-@section('title', 'Riwayat Kegiatan')
+@section('title', 'User')
 
 @section('content')
     <div class=" pt-5 mb-5">
@@ -19,8 +19,11 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Kegiatan</th>
-                                    <th>Hasil</th>
+                                    <th>Nama</th>
+                                    <th>Jabatan</th>
+                                    <th>Bidang</th>
+                                    <th>Username</th>
+                                    <th>Role</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -28,9 +31,16 @@
 
                                 <tr>
                                     <td>1</td>
-                                    <td>abcd</td>
-                                    <td>acvbndkdk</td>
+                                    <td>Putri Nurul Izza</td>
+                                    <td>Magang</td>
+                                    <td>TIK</td>
+                                    <td>putri</td>
+                                    <td>Admin</td>
                                     <td>
+                                        <button class="btn btn-sm btn-secondary" data-bs-toggle="modal"
+                                            data-bs-target="#modalResetPassword">
+                                            <i class="fa-regular fa-unlock-keyhole"></i>
+                                        </button>
                                         <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
                                             data-bs-target="#modalEdit">
                                             <i class="fa-regular fa-pen-to-square fa-lg"></i>
@@ -51,5 +61,4 @@
             </div>
         </div>
     </div>
-
 @endsection

@@ -7,6 +7,7 @@ use App\Http\Controllers\KegiatanController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,9 +19,6 @@ use App\Http\Controllers\SettingsController;
 |
 */
 
-// Route::get('/', function () {
-//     return view('component.main');
-// });
 
 Route::controller(LoginController::class)->group(function () {
     Route::get('/login', 'index')->name('login')->middleware('guest');
@@ -35,10 +33,11 @@ Route::prefix('/dashboard')->group(function () {
 
     Route::resource('/laporan', LaporanController::class)->except(['create', 'show', 'edit'])->middleware('auth');
 
-    Route::prefix('/user')->group(function () {
-        Route::resource('/profile', ProfileController::class)->except(['create', 'show', 'edit'])->middleware('auth');
-        Route::resource('/settings', SettingsController::class)->except(['create', 'show', 'edit'])->middleware('auth');
-    });
+    Route::resource('/user', UserController::class)->except(['create', 'show', 'edit'])->middleware('auth');
+
+    Route::resource('/profile', ProfileController::class)->except(['create', 'show', 'edit'])->middleware('auth');
+
+    Route::resource('/settings', SettingsController::class)->except(['create', 'show', 'edit'])->middleware('auth');
 });
 
 // Route::fallback(function () {

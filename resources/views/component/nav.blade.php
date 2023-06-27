@@ -16,30 +16,31 @@
                         href="/dashboard/laporan">Laporan</a>
                 </li>
                 <li class="nav-item me-5">
-                    <a class="nav-link fw-bold py-1 px-0 {{ Request::is('dashboard/laporan') ? 'active' : '' }}"
-                        href="/dashboard/laporan">User</a>
+                    <a class="nav-link fw-bold py-1 px-0 {{ Request::is('dashboard/user') ? 'active' : '' }}"
+                        href="/dashboard/user">Users</a>
                 </li>
             </ul>
-
         </nav>
-        <a class="nav-link dropdown-toggle p-1 fw-bold " href="#" role="button" data-bs-toggle="dropdown"
+
+        <a class="nav-link dropdown-toggle p-1 fw-bold" href="#" role="button" data-bs-toggle="dropdown"
             aria-expanded="false">
-            User
+            Putri Nurul Izza
         </a>
-        <ul class="dropdown-menu bg-transparent border-0 text-white">
-            <li class="mb-2"><a class="nav-link {{ Request::is('dashboard/user/profile') ? 'active' : '' }}"
-                    href="dashboard/user/profile">
+        <ul class="dropdown-menu bg-transparent border-0">
+            <li class="mb-2"><a class="nav-link nav-dd {{ Request::is('dashboard/profile') ? 'active' : '' }}"
+                    href="dashboard/profile">
                     Profile
                 </a></li>
-            <li class="mb-2"><a class="nav-link has-arrow {{ Request::is('dashboard/user/settings') ? 'active' : '' }}"
-                    href="dashboard/user/settings">
+            <li class="mb-2"><a
+                    class="nav-link nav-dd has-arrow {{ Request::is('dashboard/settings') ? 'active' : '' }}"
+                    href="dashboard/settings">
                     Settings
                 </a></li>
-                <hr>
+            <hr>
             <li class="mb-2">
                 <form action="/logout" method="post">
                     @csrf
-                    <button class="nav-link has-arrow">
+                    <button class="nav-link nav-dd has-arrow">
                         <i class="fa-regular dropdown-item-icon fa-arrow-right-from-bracket me-1 fa-fw"></i>
                         Logout
                     </button>

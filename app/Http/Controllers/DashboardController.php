@@ -27,7 +27,21 @@ class DashboardController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // try {
+        //     $validatedData = $request->validate([
+        //         'kategori' => 'required|unique:kategoris'
+        //     ]);
+        // } catch (\Illuminate\Validation\ValidationException $exception) {
+        //     return redirect()->route('kategori.index')->with('failed', $exception->getMessage());
+        // }
+
+        // $validatedData = $request->validate([
+        //     'kategori' => 'required|unique:kategoris'
+        // ]);
+
+        // Kategori::create($validatedData);
+
+        // return redirect()->route('kategori.index')->with('success', 'Kategori baru berhasil ditambahkan!');
     }
 
     /**
