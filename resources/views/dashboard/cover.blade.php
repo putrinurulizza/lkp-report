@@ -1,11 +1,57 @@
 @extends('component.main')
-@section('title', 'cover')
+@section('title', 'Home')
 
 @section('content')
-    <h1>Laporan Kinerja Pegawai</h1>
-    <p class="lead">Cover is a one-page template for building simple and beautiful home pages. Download, edit the text, and
-        add your own fullscreen background photo to make it your own.</p>
-    <p class="lead">
-        <a href="#" class="btn btn-lg btn-secondary fw-bold border-white bg-white">ISI KEGIATAN</a>
-    </p>
+    <main class="px-3">
+        <h2>Laporan Kinerja Pegawai</h2>
+        <p class="lead fs-5">Tambahkan kegiatan anda hari ini melalui button di bawah!</p>
+        <p class="lead">
+            <button class="btn btn-lg btn-secondary fw-bold border-white bg-white" data-bs-toggle="modal"
+                data-bs-target="#tambahKegiatan">Kegiatan</button>
+        </p>
+    </main>
+
+    {{-- Modal Tambah Kegiatan --}}
+    <x-form_modal>
+        @slot('id', 'tambahKegiatan')
+        @slot('title', 'Tambah Kegiatan Hari Ini')
+        @slot('route', route('home.store'))
+
+        @csrf
+        <div class="row">
+            <div class="mb-3">
+                <label for="tanggal" class="form-label">Tanggal</label>
+                <input type="date" class="form-control @error('tanggal') is-invalid @enderror" name="tanggal"
+                    id="tanggal" disabled>
+                @error('tanggal')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
+            <div class="mb-3">
+                <label for="kegiatan" class="form-label">Kegiatan</label>
+                <input type="text" class="form-control @error('kegiatan') is-invalid @enderror" name="kegiatan"
+                    id="kegiatan" autofocus required>
+                @error('kegiatan')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
+            <div class="mb-3">
+                <label for="hasil" class="form-label">Hasil</label>
+                <input type="text" class="form-control @error('hasil') is-invalid @enderror" name="hasil"
+                    id="hasil" autofocus required>
+                @error('hasil')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
+
+
+        </div>
+    </x-form_modal>
+    {{-- / Modal Tambah Kategori --}}
 @endsection

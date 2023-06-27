@@ -3,7 +3,7 @@
 
 <head>
     @include('component.head')
-    <title>@yield('title', '')</title>
+    <title> Dashboard | @yield('title', '')</title>
     <style>
         .bd-placeholder-img {
             font-size: 1.125rem;
@@ -61,9 +61,7 @@
 <body class="d-flex h-100 text-center text-bg-dark">
     <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
         @include('component.nav')
-        <main class="px-3">
-            @yield('content')
-        </main>
+        @yield('content')
         @include('component.footer')
     </div>
 </body>

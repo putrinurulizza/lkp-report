@@ -3,7 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\DashboardController;
-
+use App\Http\Controllers\KegiatanController;
+use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SettingsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,7 +29,16 @@ Route::controller(LoginController::class)->group(function () {
 });
 
 Route::prefix('/dashboard')->group(function () {
-    Route::get('/home', [DashboardController::class, 'index'])->name('dashboard.cover')->middleware('auth');
+    Route::resource('/home', DashboardController::class)->middleware('auth');
+
+    Route::resource('/kegiatan', KegiatanController::class)->except(['create', 'show', 'edit'])->middleware('auth');
+
+    Route::resource('/laporan', LaporanController::class)->except(['create', 'show', 'edit'])->middleware('auth');
+
+    Route::prefix('/user')->group(function () {
+        Route::resource('/profile', ProfileController::class)->except(['create', 'show', 'edit'])->middleware('auth');
+        Route::resource('/settings', SettingsController::class)->except(['create', 'show', 'edit'])->middleware('auth');
+    });
 });
 
 // Route::fallback(function () {
