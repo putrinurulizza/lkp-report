@@ -21,9 +21,11 @@
     </div>
     <div class="row justify-content-center mt-1 mb-5 ">
         <div class="col col-md-6">
-            <div class="card bg-dark text-white">
+            <div class="card bg-dark text-white border-0">
                 <div class="card-body">
-                    <img src="https://github.com/mdo.png" alt="" width="50%" class="rounded-circle me-2">
+                    <div class="text-center">
+                        <img src="https://github.com/mdo.png" alt="" width="50%" class="rounded-circle mb-3 ">
+                    </div>
                     <form action="" method="post">
                         @csrf
                         <input type="hidden" name="id" value="{{ auth()->user()->id }}">
@@ -66,9 +68,13 @@
                             <input type="text" class="form-control" name="role" id="role"
                                 value="{{ $role }}" required disabled>
                         </div> --}}
-
-                        <div class="text-end">
-                            <button type="submit" class="btn btn-primary">Simpan</button>
+                        <div class="row text-end">
+                            <div class="col">
+                                <button type="submit" class="btn btn-danger">Reset Password</button>
+                            </div>
+                            <div class="col-lg-2 me-3">
+                                <button type="submit" class="btn btn-primary">Simpan</button>
+                            </div>
                         </div>
                     </form>
                 </div>
