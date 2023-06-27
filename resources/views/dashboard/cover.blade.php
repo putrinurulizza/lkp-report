@@ -2,7 +2,7 @@
 @section('title', 'Home')
 
 @section('content')
-    <main class="px-3">
+    <main class="px-3 text-center ">
         <h2>Laporan Kinerja Pegawai</h2>
         <p class="lead fs-5">Tambahkan kegiatan anda hari ini melalui button di bawah!</p>
         <p class="lead">
@@ -20,7 +20,7 @@
         @csrf
         <div class="row">
             <div class="mb-3">
-                <label for="tanggal" class="form-label">Tanggal</label>
+                <label for="tanggal" class="form-label text-dark">Tanggal</label>
                 <input type="date" class="form-control @error('tanggal') is-invalid @enderror" name="tanggal"
                     id="tanggal" disabled>
                 @error('tanggal')
@@ -30,7 +30,7 @@
                 @enderror
             </div>
             <div class="mb-3">
-                <label for="kegiatan" class="form-label">Kegiatan</label>
+                <label for="kegiatan" class="form-label text-dark">Kegiatan</label>
                 <input type="text" class="form-control @error('kegiatan') is-invalid @enderror" name="kegiatan"
                     id="kegiatan" autofocus required>
                 @error('kegiatan')
@@ -40,7 +40,7 @@
                 @enderror
             </div>
             <div class="mb-3">
-                <label for="hasil" class="form-label">Hasil</label>
+                <label for="hasil" class="form-label text-dark">Hasil</label>
                 <input type="text" class="form-control @error('hasil') is-invalid @enderror" name="hasil"
                     id="hasil" autofocus required>
                 @error('hasil')
