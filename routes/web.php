@@ -45,10 +45,10 @@ Route::prefix('/dashboard')->group(function () {
 //     return redirect()->route('login');
 // });
 
-Route::fallback(function () {
-    if (session('url.intended')) {
-        return redirect(session('url.intended'));
-    } else {
-        return redirect()->route('login');
-    }
-});
+// Route::fallback(function () {
+//     if (session('url.intended')) {
+//         return redirect(session('url.intended'));
+//     } else {
+//         return redirect()->route('login');
+//     }
+// });

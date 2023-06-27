@@ -22,7 +22,7 @@ class LoginController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended(route('dashboard.cover'));
+            return redirect()->intended('/dashboard/home');
         }
         return back()->with('failed', 'Username/Password salah!');
     }

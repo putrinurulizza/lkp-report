@@ -9,7 +9,7 @@
             <a class="nav-link fw-bold py-1 px-0 {{ Request::is('dashboard/laporan') ? 'active' : '' }}"
                 href="/dashboard/laporan">Laporan</a>
 
-            {{-- <div class="nav-item">
+            <div class="nav-item">
                 <a class="nav-link has-arrow {{ Request::is('dashboard/user*') ? '' : 'collapsed' }}"
                     data-bs-toggle="collapse" data-bs-target="#navUser" aria-expanded="false" aria-controls="navUser">
                     user
@@ -37,9 +37,9 @@
                         </li>
                     </ul>
                 </div>
-            </div> --}}
+            </div>
 
-            {{-- <div class="dropdown ms-3">
+            <div class="dropdown ms-3">
                 <a class="nav-link fw-bold py-1 px-0 dropdown-toggle collapse {{ Request::is('dashboard/user*') ? 'show' : '' }}"
                     role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false">user</a>
@@ -50,7 +50,7 @@
                         href="/dashboard/user/settings">Settings</a>
                     <a class="dropdown-item" href="/logout">Logout</a>
                 </div>
-            </div> --}}
+            </div>
 
             <form action="/logout" method="post">
                 @csrf
