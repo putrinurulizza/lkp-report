@@ -27,7 +27,7 @@
                         <img src="{{ asset('images/favicon/avatar.jpg') }}" alt="" width="45%" height="45%"
                             class="rounded-circle mb-3 ">
                     </div>
-                    <form action="" method="post">
+                    <form action="" method="put">
                         @csrf
                         <input type="hidden" name="id" value="{{ auth()->user()->id }}">
                         <div class="mb-3">
@@ -70,7 +70,7 @@
                                 <button type="submit" class="btn btn-danger">Reset Password</button>
                             </div>
                             <div class="col-lg-2 me-3">
-                                <button type="submit" href="/profile/update" class="btn btn-primary">Perbarui</button>
+                                <button type="submit" class="btn btn-primary">Perbarui</button>
                             </div>
                         </div>
                     </form>

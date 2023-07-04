@@ -31,6 +31,7 @@
     <x-form_modal>
         @slot('id', 'tambahKegiatan')
         @slot('title', 'Tambah Kegiatan Hari Ini')
+        @slot('overflow', 'overflow-auto')
         @slot('route', route('home.store'))
 
         @csrf
@@ -41,27 +42,50 @@
                 <input type="text" class="form-control" name="tanggal" id="tanggal"
                     placeholder="{{ \Carbon\Carbon::now()->locale('id')->translatedFormat('l, j F Y') }}" readonly>
             </div>
-            <div class="mb-3">
-                <label for="kegiatan" class="form-label text-dark">Kegiatan</label>
-                <input type="text" class="form-control @error('kegiatan') is-invalid @enderror" name="kegiatan"
-                    id="kegiatan" autofocus required>
-                @error('kegiatan')
-                    <div class="invalid-feedback">
-                        {{ $message }}
-                    </div>
-                @enderror
-            </div>
-            <div class="mb-3">
-                <label for="hasil" class="form-label text-dark">Hasil</label>
-                <input type="text" class="form-control @error('hasil') is-invalid @enderror" name="hasil"
-                    id="hasil" autofocus required>
-                @error('hasil')
-                    <div class="invalid-feedback">
-                        {{ $message }}
-                    </div>
-                @enderror
+            <div id="input-container" class="mb-3">
+                <div class="input text-dark">
+                    <label for="kegiatan" class="form-label">Kegiatan</label>
+                    <input type="text" class="form-control kegiatan" name="kegiatan[]" id="kegiatan" autofocus required>
+                </div>
+                <div class="input text-dark mt-3">
+                    <label for="hasil" class="form-label">Hasil</label>
+                    <input type="text" class="form-control hasil" name="hasil[]" id="hasil">
+                </div>
+                <button type="button" class="btn btn-success mt-3 add-input">Tambah Kegiatan dan Hasil</button>
             </div>
         </div>
     </x-form_modal>
     {{-- / Modal Tambah Kegiatan --}}
+@endsection
+
+@section('scripts')
+    <script>
+        $(document).ready(function() {
+            // Tambah input
+            $('.add-input').click(function() {
+                var inputContainer = $(this).closest('#input-container');
+                var newInputContainer = inputContainer.clone();
+
+                // Reset nilai input pada input baru
+                newInputContainer.find('.kegiatan').val('');
+                newInputContainer.find('.hasil').val('');
+
+                // Tambah input baru setelah input sebelumnya
+                inputContainer.after(newInputContainer);
+
+                // Ganti event handler tombol menjadi fungsi hapus input
+                newInputContainer.find('.add-input').removeClass('btn-success add-input').addClass(
+                    'btn-danger remove-input').text('Hapus');
+                newInputContainer.find('.remove-input').click(function() {
+                    newInputContainer.remove();
+                });
+            });
+
+            // Hapus input
+            $(document).on('click', '.remove-input', function() {
+                var inputContainer = $(this).closest('#input-container');
+                inputContainer.remove();
+            });
+        });
+    </script>
 @endsection

@@ -18,6 +18,11 @@ class Kegiatan extends Model
         'hasil'
     ];
 
+    public function detailkegiatans()
+    {
+        return $this->hasMany(detailKegiatan::class, 'id_kegiatan');
+    }
+
     public function users()
     {
         return $this->belongsTo(Users::class);

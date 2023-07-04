@@ -1,0 +1,24 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class detailKegiatan extends Model
+{
+    use HasFactory;
+
+    protected $table = 'detailkegiatans';
+
+    protected $fillable = [
+        'id_kegiatan',
+        'kegiatan',
+        'hasil'
+    ];
+
+    public function kegiatans()
+    {
+        return $this->belongsTo(Kegiatan::class, 'id_kegiatan');
+    }
+}

@@ -12,10 +12,11 @@ class KegiatanController extends Controller
      */
     public function index()
     {
+        $kegiatans = Kegiatan::with('detailkegiatans')->get();
         return view(
             'dashboard.kegiatan.index',
             [
-                'kegiatans' => Kegiatan::all()
+                'kegiatans' => $kegiatans
             ]
         );
     }
