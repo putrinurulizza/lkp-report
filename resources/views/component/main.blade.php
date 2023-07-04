@@ -65,6 +65,7 @@
         @include('component.footer')
     </div>
     @include('component.script')
+    @yield('scripts')
 </body>
 
 

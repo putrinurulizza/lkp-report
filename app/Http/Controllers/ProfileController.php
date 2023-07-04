@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class ProfileController extends Controller
 {
@@ -49,9 +50,24 @@ class ProfileController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+        try {
+            $rules = [
+                'nama' => 'required|date',
+                'bidang' => 'required',
+                'jabatan' => 'required',
+                'username' => 'required|unique:users'
+            ];
+
+            $validatedData = $request->validate($rules);
+
+            User::where('id', $request->id)->update($validatedData);
+
+            return redirect()->route('profile.index')->with('success', "Profile berhasil diperbarui!");
+        } catch (\Illuminate\Validation\ValidationException $exception) {
+            return redirect()->route('profile.index')->with('failed', 'Profile gagal diperbarui! ' . $exception->getMessage());
+        }
     }
 
     /**

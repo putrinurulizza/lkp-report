@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kegiatan;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -11,7 +12,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('dashboard.cover');
+        return view('dashboard.index');
     }
 
     /**
@@ -27,21 +28,21 @@ class DashboardController extends Controller
      */
     public function store(Request $request)
     {
-        // try {
-        //     $validatedData = $request->validate([
-        //         'kategori' => 'required|unique:kategoris'
-        //     ]);
-        // } catch (\Illuminate\Validation\ValidationException $exception) {
-        //     return redirect()->route('kategori.index')->with('failed', $exception->getMessage());
-        // }
+        try {
+            $validatedData = $request->validate([
+                'id_user' => 'required',
+                'kegiatan' => 'required',
+                'hasil' => 'required',
+            ]);
 
-        // $validatedData = $request->validate([
-        //     'kategori' => 'required|unique:kategoris'
-        // ]);
+            $validatedData['tanggal'] = date('Y-m-d');
 
-        // Kategori::create($validatedData);
+            Kegiatan::create($validatedData);
 
-        // return redirect()->route('kategori.index')->with('success', 'Kategori baru berhasil ditambahkan!');
+            return redirect()->route('kegiatan.index')->with('success', 'Kegiatan baru berhasil ditambahkan!');
+        } catch (\Illuminate\Validation\ValidationException $exception) {
+            return redirect()->route('home.index')->with('failed', 'Kegiatan gagal ditambahkan' . ' - ' . $exception->getMessage());
+        }
     }
 
     /**
