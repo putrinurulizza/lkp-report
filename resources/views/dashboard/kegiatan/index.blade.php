@@ -40,11 +40,12 @@
                             </thead>
                             <tbody>
                                 @foreach ($kegiatans as $kegiatan)
-                                    @foreach ($detailegiatans as $detail)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $kegiatan->tanggal }}</td>
-                                            <td>{{ $detail->kegiatan }}</td>
+                                            @foreach ($kegiatan->detailkegiatans as $detail)
+                                                <td>{{ $detail->kegiatan }}</td>
+                                            @endforeach
                                             <td>{{ $detail->hasil }}</td>
                                             <td>
                                                 <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
@@ -124,7 +125,6 @@
                                             </p>
                                         </x-form_modal>
                                         {{-- / Hapus Data Kegiatan --}}
-                                    @endforeach
                                 @endforeach
                             </tbody>
                         </table>

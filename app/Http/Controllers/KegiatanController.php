@@ -18,7 +18,7 @@ class KegiatanController extends Controller
             [
                 'kegiatans' => $kegiatans
             ]
-        );
+            );
     }
 
     /**
