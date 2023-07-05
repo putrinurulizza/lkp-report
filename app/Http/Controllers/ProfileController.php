@@ -54,10 +54,10 @@ class ProfileController extends Controller
     {
         try {
             $rules = [
-                'nama' => 'required|date',
+                'nama' => 'required',
                 'bidang' => 'required',
                 'jabatan' => 'required',
-                'username' => 'required|unique:users'
+                'username' => 'required|unique:users,username,' . $request->id,
             ];
 
             $validatedData = $request->validate($rules);

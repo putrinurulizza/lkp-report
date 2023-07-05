@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\detailKegiatan;
 use Illuminate\Http\Request;
 
 class LaporanController extends Controller
@@ -11,7 +12,13 @@ class LaporanController extends Controller
      */
     public function index()
     {
-        return view('dashboard.laporan.index');
+        $kegiatans = detailKegiatan::with('kegiatans')->get();
+        return view(
+            'dashboard.laporan.index',
+            [
+                'kegiatans' => $kegiatans
+            ]
+        );
     }
 
     /**

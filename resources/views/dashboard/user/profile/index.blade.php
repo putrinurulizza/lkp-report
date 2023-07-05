@@ -27,8 +27,9 @@
                         <img src="{{ asset('images/favicon/avatar.jpg') }}" alt="" width="45%" height="45%"
                             class="rounded-circle mb-3 ">
                     </div>
-                    <form action="" method="put">
+                    <form action="{{ route('profile.update', ['profile' => auth()->user()->id]) }}" method="POST">
                         @csrf
+                        @method('PUT')
                         <input type="hidden" name="id" value="{{ auth()->user()->id }}">
                         <div class="mb-3">
                             <label for="nama" class="form-label">Nama</label>
@@ -67,16 +68,42 @@
                         </div>
                         <div class="row text-end">
                             <div class="col">
-                                <button type="submit" class="btn btn-danger">Reset Password</button>
-                            </div>
-                            <div class="col-lg-2 me-3">
                                 <button type="submit" class="btn btn-primary">Perbarui</button>
                             </div>
                         </div>
                     </form>
+                    <div class="row text-end">
+                        <div class="col">
+                            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#resetPasswordUser">Reset
+                                Password</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
 @endsection
+
+{{-- Modal Reset Password User --}}
+<x-form_modal>
+    @slot('id', 'resetPasswordUser')
+    @slot('title', 'Ganti Password')
+    @slot('overflow', 'overflow-auto')
+    {{-- @slot('route', route('profile.resetPasswordUser')) --}}
+
+    @csrf
+    <div class="row">
+        <div class="mb-3">
+            <label for="password" class="form-label text-dark">Password</label>
+            <input type="password" class="form-control @error('password') is-invalid @enderror" id="password"
+                name="password" autofocus required>
+            @error('password')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
+        </div>
+    </div>
+</x-form_modal>
+{{-- / Modal Reset Password User --}}
