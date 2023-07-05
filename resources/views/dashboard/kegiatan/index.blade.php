@@ -43,7 +43,11 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $kegiatan->kegiatans->tanggal }}</td>
+<<<<<<< HEAD
                                         <td>{{ $kegiatan->kegiatan }} </td>
+=======
+                                        <td>{{ $kegiatan->kegiatan }}</td>
+>>>>>>> 1cae16b131eae68bba0384e87627b00aeb32980c
                                         <td>{{ $kegiatan->hasil }}</td>
                                         <td>
                                             <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
@@ -57,32 +61,50 @@
                                         </td>
                                     </tr>
 
+<<<<<<< HEAD
                                     {{-- Modal Edit Kegiatan --}}
                                     {{-- <x-form_modal>
                                         @slot('id', "modalEdit$loop->iteration")
                                         @slot('title', 'Edit Data Kegiatan')
                                         @slot('overflow', 'overflow-auto')
+=======
+                                    <!-- Edit Data Kegiatan -->
+                                    <x-form_modal>
+                                        @slot('id', "modalEdit$loop->iteration")
+                                        @slot('title', 'Edit Data Kegiatan')
+>>>>>>> 1cae16b131eae68bba0384e87627b00aeb32980c
                                         @slot('route', route('kegiatan.update', $kegiatan->id))
                                         @slot('method') @method('put') @endslot
                                         @slot('btnprimaryTitle', 'Perbarui')
 
+<<<<<<< HEAD
 
                                         @csrf
                                         <div class="row">
                                             <input type="hidden" name="id_user" id="id_user"
                                                 value="{{ auth()->user()->id }}">
+=======
+                                        @csrf
+                                        <div class="row">
+>>>>>>> 1cae16b131eae68bba0384e87627b00aeb32980c
                                             <div class="mb-3">
                                                 <label for="tanggal" class="form-label text-dark">Tanggal</label>
                                                 <input type="date"
                                                     class="form-control @error('tanggal') is-invalid @enderror"
+<<<<<<< HEAD
                                                     name="tanggal" id="tanggal" value="{{ $kegiatan->tanggal }}" autofocus
                                                     required>
+=======
+                                                    name="tanggal" id="tanggal"
+                                                    value="{{ old('tanggal', $kegiatan->tanggal) }}" autofocus required>
+>>>>>>> 1cae16b131eae68bba0384e87627b00aeb32980c
                                                 @error('tanggal')
                                                     <div class="invalid-feedback">
                                                         {{ $message }}
                                                     </div>
                                                 @enderror
                                             </div>
+<<<<<<< HEAD
                                             <div id="input-container" class="mb-3">
                                                 @foreach ($kegiatan->details as $detail)
                                                     <div class="input text-dark">
@@ -166,6 +188,46 @@
                                         @slot('btnSecondaryClass', 'btn-secondary')
                                         @slot('btnPrimaryTitle', 'Hapus')
 
+=======
+                                            <div class="mb-3">
+                                                <label for="kegiatan" class="form-label text-dark">Kegiatan</label>
+                                                <input type="text"
+                                                    class="form-control @error('kegiatan') is-invalid @enderror"
+                                                    name="kegiatan" id="kegiatan"
+                                                    value="{{ old('kegiatan', $kegiatan->kegiatan) }}" autofocus required>
+                                                @error('kegiatan')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="hasil" class="form-label text-dark">Hasil</label>
+                                                <input type="text"
+                                                    class="form-control @error('hasil') is-invalid @enderror" name="hasil"
+                                                    id="hasil" value="{{ old('hasil', $kegiatan->hasil) }}" autofocus
+                                                    required>
+                                                @error('hasil')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </x-form_modal>
+                                    {{-- / Edit Data Kegiatan --}}
+
+                                    <!-- Hapus Data Kegiatan -->
+                                    <x-form_modal>
+                                        @slot('id', "modalHapus$loop->iteration")
+                                        @slot('title', 'Hapus Data Kegiatan')
+                                        @slot('route', route('kegiatan.destroy', $kegiatan->id))
+                                        @slot('method') @method('delete') @endslot
+                                        @slot('btnPrimaryClass', 'btn-outline-danger')
+                                        @slot('btnSecondaryClass', 'btn-secondary')
+                                        @slot('btnPrimaryTitle', 'Hapus')
+
+>>>>>>> 1cae16b131eae68bba0384e87627b00aeb32980c
                                         <p class="fs-6">Apakah anda yakin akan menghapus data kegiatan
                                             <b>{{ $kegiatan->kegiatan }}</b>?
                                         </p>
