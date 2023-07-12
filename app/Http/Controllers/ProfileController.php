@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
 {
@@ -76,5 +77,34 @@ class ProfileController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+
+    public function resetPasswordUser(Request $request)
+    {
+        try {
+            $user = User::findOrFail($request->id);
+            $rules = [
+                'password' => 'required|min:5|max:255',
+                'passbaru' => 'required|min:5|max:255',
+                'konfpass' => 'required|min:5|max:255'
+            ];
+
+            if (Hash::check($request->password, $user->password)) {
+                if ($request->passbaru == $request->konfpass) {
+                    $validatedData = $request->validate($rules);
+                    $validatedData['password'] = Hash::make($validatedData['passbaru']);
+
+                    $user->update($validatedData);
+                    return redirect()->route('profile.index')->with('success', 'Password berhasil diubah!');
+                } else {
+                    return back()->with('failed', 'Konfirmasi password tidak sesuai!');
+                }
+            } else {
+                return back()->with('failed', 'Password lama Anda salah!');
+            }
+        } catch (\Exception $e) {
+            return back()->with('failed', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
     }
 }

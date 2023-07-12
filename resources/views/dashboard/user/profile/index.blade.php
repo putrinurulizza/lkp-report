@@ -90,15 +90,36 @@
     @slot('id', 'resetPasswordUser')
     @slot('title', 'Ganti Password')
     @slot('overflow', 'overflow-auto')
-    {{-- @slot('route', route('profile.resetPasswordUser')) --}}
+    @slot('route', route('profile.resetPasswordUser', ['profile' => auth()->user()->id]))
 
     @csrf
     <div class="row">
+        <input type="hidden" name="id" value="{{ auth()->user()->id }}">
         <div class="mb-3">
-            <label for="password" class="form-label text-dark">Password</label>
+            <label for="password" class="form-label text-dark">Password Lama</label>
             <input type="password" class="form-control @error('password') is-invalid @enderror" id="password"
                 name="password" autofocus required>
             @error('password')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
+        </div>
+        <div class="mb-3">
+            <label for="passbaru" class="form-label text-dark">Password Baru</label>
+            <input type="password" class="form-control @error('passbaru') is-invalid @enderror" id="passbaru"
+                name="passbaru" autofocus required>
+            @error('passbaru')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
+        </div>
+        <div class="mb-3">
+            <label for="konfpass" class="form-label text-dark">Konfirmasi Password Baru</label>
+            <input type="password" class="form-control @error('konfpass') is-invalid @enderror" id="konfpass"
+                name="konfpass" autofocus required>
+            @error('konfpass')
                 <div class="invalid-feedback">
                     {{ $message }}
                 </div>

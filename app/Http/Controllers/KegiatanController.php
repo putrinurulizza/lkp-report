@@ -94,16 +94,27 @@ class KegiatanController extends Controller
      */
     public function update(Request $request, Kegiatan $kegiatan)
     {
+
         try {
             $rules = [
                 'tanggal' => 'required|date',
+            ];
+
+            $validatedData = $request->validate($rules);
+            Kegiatan::where('id', $kegiatan->id)->update($validatedData);
+
+            $kegiatanTerbaru = Kegiatan::latest()->first();
+            $idKegiatanTerbaru = $kegiatanTerbaru->id;
+            //dd($idKegiatanTerbaru);
+
+            $rules2 = [
                 'kegiatan' => 'required',
                 'hasil' => 'required'
             ];
 
-            $validatedData = $request->validate($rules);
-
-            Kegiatan::where('id', $kegiatan->id)->update($validatedData);
+            $validatedData = $request->validate($rules2);
+            dd($validatedData);
+            detailKegiatan::where('id_kegiatan', $idKegiatanTerbaru)->update($validatedData);
 
             return redirect()->route('kegiatan.index')->with('success', "Data kegiatan $kegiatan->kegiatan berhasil diperbarui!");
         } catch (\Illuminate\Validation\ValidationException $exception) {

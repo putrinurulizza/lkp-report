@@ -162,6 +162,30 @@
                                         </p>
                                     </x-form_modal>
                                     {{-- / Hapus Data User --}}
+
+                                    {{-- Modal Reset Password Admin --}}
+                                    <x-form_modal>
+                                        @slot('id', "modalResetPassword$loop->iteration")
+                                        @slot('title', 'Ganti Password')
+                                        @slot('route', route('user.resetPasswordAdmin', $user->id))
+                                        @slot('method') @method('put') @endslot
+
+                                        @csrf
+                                        <div class="row">
+                                            <div class="mb-3">
+                                                <label for="password" class="form-label text-dark">Password Baru</label>
+                                                <input type="password"
+                                                    class="form-control @error('password') is-invalid @enderror"
+                                                    id="password" name="password" autofocus required>
+                                                @error('password')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </x-form_modal>
+                                    {{-- / Modal Reset Password Admin --}}
                                 @endforeach
                             </tbody>
                         </table>

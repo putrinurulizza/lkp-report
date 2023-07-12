@@ -21,7 +21,7 @@
 
             <a class="nav-link dropdown-toggle p-1 fw-bold" role="button" data-bs-toggle="dropdown"
                 aria-expanded="false">
-                Putri Nurul Izza
+                {{ auth()->user()->nama }}
             </a>
             <ul class="dropdown-menu bg-transparent border-0">
                 <li class="mb-2"><a
@@ -59,7 +59,7 @@
 
             <a class="nav-link dropdown-toggle p-1 fw-bold" role="button" data-bs-toggle="dropdown"
                 aria-expanded="false">
-                Putri Nurul Izza
+                {{ auth()->user()->nama }}
             </a>
             <ul class="dropdown-menu bg-transparent border-0">
                 <li class="mb-2"><a

@@ -33,9 +33,11 @@ Route::prefix('/dashboard')->group(function () {
     Route::resource('/laporan', LaporanController::class)->except(['create', 'show', 'edit'])->middleware('auth');
 
     Route::resource('/user', UserController::class)->except(['create', 'show', 'edit'])->middleware('auth');
+    Route::put('/user/{user}', [UserController::class, 'resetPasswordAdmin'])->name('user.resetPasswordAdmin')->middleware('auth');
 
     Route::resource('/profile', ProfileController::class)->except(['create', 'show', 'edit'])->middleware('auth');
     Route::put('/profile/{profile}', [ProfileController::class, 'update'])->name('profile.update')->middleware('auth');
+    Route::post('/profile/{profile}', [ProfileController::class, 'resetPasswordUser'])->name('profile.resetPasswordUser')->middleware('auth');
 });
 
 // Route::fallback(function () {

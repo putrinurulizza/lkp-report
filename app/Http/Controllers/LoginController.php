@@ -13,19 +13,37 @@ class LoginController extends Controller
         return view('auth.signin');
     }
 
-    function login(Request $request)
+    public function login(Request $request)
     {
-        $credentials = $request->validate([
-            'username' => 'required',
-            'password' => 'required',
-        ]);
+        $credentials = $request->only('username', 'password');
 
         if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-            return redirect()->intended('/dashboard/home');
+            $user = Auth::user();
+
+            if ($user->is_admin) {
+                return redirect()->route('user.index');
+            } else {
+                return redirect()->route('home.index');
+            }
         }
-        return back()->with('failed', 'Username/Password salah!');
+
+        return back()->with('failed', 'Username atau password salah!');
     }
+
+
+    // function login(Request $request)
+    // {
+    //     $credentials = $request->validate([
+    //         'username' => 'required',
+    //         'password' => 'required',
+    //     ]);
+
+    //     if (Auth::attempt($credentials)) {
+    //         $request->session()->regenerate();
+    //         return redirect()->intended('/dashboard/home');
+    //     }
+    //     return back()->with('failed', 'Username/Password salah!');
+    // }
 
     function logout(Request $request)
     {

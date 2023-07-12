@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kegiatan;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -109,21 +110,21 @@ class UserController extends Controller
         return redirect()->route('user.index')->with('success', "User $user->nama berhasil dihapus!");
     }
 
-    // public function resetPasswordAdmin(Request $request)
-    // {
-    //     $rules = [
-    //         'password' => 'required|min:5|max:255',
-    //     ];
+    public function resetPasswordAdmin(Request $request, User $user)
+    {
+        try {
+            $rules = [
+                'password' => 'required|min:5|max:255',
+            ];
 
-    //     if ($request->password == $request->password2) {
-    //         $validatedData = $request->validate($rules);
-    //         $validatedData['password'] = Hash::make($validatedData['password']);
+            $validatedData = $request->validate($rules);
+            $validatedData['password'] = Hash::make($validatedData['password']);
 
-    //         User::where('id', $request->id)->update($validatedData);
-    //     } else {
-    //         return back()->with('failed', 'Konfirmasi password tidak sesuai');
-    //     }
+            User::where('id', $user->id)->update($validatedData);
 
-    //     return redirect('/dashboard/user/list-user')->with('success', 'Password berhasil direset!');
-    // }
+            return redirect()->route('user.index')->with('success', 'Password berhasil diubah!');
+        } catch (\Exception $e) {
+            return back()->with('failed', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
 }
