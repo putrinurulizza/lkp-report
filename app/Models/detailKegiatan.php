@@ -11,6 +11,8 @@ class detailKegiatan extends Model
 
     protected $table = 'detailkegiatans';
 
+    protected $with = ['kegiatans'];
+
     protected $fillable = [
         'id_kegiatan',
         'kegiatan',

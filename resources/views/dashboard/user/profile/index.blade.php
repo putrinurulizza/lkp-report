@@ -97,34 +97,103 @@
         <input type="hidden" name="id" value="{{ auth()->user()->id }}">
         <div class="mb-3">
             <label for="password" class="form-label text-dark">Password Lama</label>
-            <input type="password" class="form-control @error('password') is-invalid @enderror" id="password"
-                name="password" autofocus required>
-            @error('password')
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
-            @enderror
+            <div id="pwd" class="input-group">
+                <input type="password" class="form-control @error('password') is-invalid @enderror" id="password"
+                    name="password" autofocus required>
+                <span class="input-group-text cursor-pointer">
+                    <i class="fa-regular fa-eye-slash" id="togglePassword"></i>
+                </span>
+                @error('password')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
         </div>
         <div class="mb-3">
             <label for="passbaru" class="form-label text-dark">Password Baru</label>
-            <input type="password" class="form-control @error('passbaru') is-invalid @enderror" id="passbaru"
-                name="passbaru" autofocus required>
-            @error('passbaru')
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
-            @enderror
+            <div id="pwd2" class="input-group">
+                <input type="password" class="form-control @error('passbaru') is-invalid @enderror" id="passbaru"
+                    name="passbaru" autofocus required>
+                <span class="input-group-text cursor-pointer">
+                    <i class="fa-regular fa-eye-slash" id="togglePassword"></i>
+                </span>
+                @error('passbaru')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
         </div>
         <div class="mb-3">
             <label for="konfpass" class="form-label text-dark">Konfirmasi Password Baru</label>
-            <input type="password" class="form-control @error('konfpass') is-invalid @enderror" id="konfpass"
-                name="konfpass" autofocus required>
-            @error('konfpass')
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
-            @enderror
+            <div id="pwd3" class="input-group">
+                <input type="password" class="form-control @error('konfpass') is-invalid @enderror" id="konfpass"
+                    name="konfpass" autofocus required>
+                <span class="input-group-text cursor-pointer">
+                    <i class="fa-regular fa-eye-slash" id="togglePassword"></i>
+                </span>
+                @error('konfpass')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
         </div>
     </div>
 </x-form_modal>
 {{-- / Modal Reset Password User --}}
+
+<script>
+    const input1 = document.querySelector("#pwd1 input");
+    const eye1 = document.querySelector("#pwd1 .fa-eye-slash");
+
+    eye1.addEventListener("click", () => {
+        if (input1.type === "password") {
+            input1.type = "text";
+
+            eye1.classList.remove("fa-eye-slash");
+            eye1.classList.add("fa-eye");
+        } else {
+            input1.type = "password";
+
+            eye1.classList.remove("fa-eye");
+            eye1.classList.add("fa-eye-slash");
+        }
+    });
+
+    const input2 = document.querySelector("#pwd2 input");
+    const eye2 = document.querySelector("#pwd2 .fa-eye-slash");
+
+    eye2.addEventListener("click", () => {
+        if (input2.type === "password") {
+            input2.type = "text";
+
+            eye2.classList.remove("fa-eye-slash");
+            eye2.classList.add("fa-eye");
+        } else {
+            input2.type = "password";
+
+            eye2.classList.remove("fa-eye");
+            eye2.classList.add("fa-eye-slash");
+        }
+    });
+
+    const input3 = document.querySelector("#pwd3 input");
+    const eye3 = document.querySelector("#pwd3 .fa-eye-slash");
+
+    eye3.addEventListener("click", () => {
+        if (input3.type === "password") {
+            input3.type = "text";
+
+            eye3.classList.remove("fa-eye-slash");
+            eye3.classList.add("fa-eye");
+        } else {
+            input3.type = "password";
+
+            eye3.classList.remove("fa-eye");
+            eye3.classList.add("fa-eye-slash");
+        }
+    });
+</script>
+<script src="{{ asset('js/show-hide-password.js') }}"></script>

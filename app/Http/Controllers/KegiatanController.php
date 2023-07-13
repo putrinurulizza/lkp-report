@@ -13,13 +13,11 @@ class KegiatanController extends Controller
      */
     public function index()
     {
-        $kegiatans = detailKegiatan::with('kegiatans')->get();
+        $kegiatans = Kegiatan::with('detailkegiatans')->get();
+        $details = detailKegiatan::with('kegiatans')->get();
         return view(
             'dashboard.kegiatan.index',
-            [
-                'kegiatans' => $kegiatans
-            ]
-        );
+        )->with(compact('kegiatans', 'details'));
     }
 
     /**
