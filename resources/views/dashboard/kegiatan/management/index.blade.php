@@ -1,5 +1,5 @@
 @extends('component.main')
-@section('title', 'Riwayat Kegiatan')
+@section('title', 'Management Kegiatan')
 
 @section('content')
     <div class=" pt-5 mb-5">
@@ -21,14 +21,10 @@
 
         <div class="row ">
             <div class="col">
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tambahKegiatan"><i
-                        class="fa-regular fa-plus me-2 me-2"></i>Tambah</button>
-                <button class="btn btn-secondary text-light"
-                    onclick="window.location.href='{{ route('management.index') }}'">
-                    <i class="fa-solid fa-eye me-2 me-2" aria-label="Close"></i>
-                    Management
+                <button class="btn btn-secondary text-light" onclick="window.location.href='{{ route('kegiatan.index') }}'">
+                    <i class="fa-regular fa-circle-chevron-left fs-3 p-1" aria-label="Close"></i>
                 </button>
-
+                <h4 class="m-3">Management Kegiatan</h4>
                 <div class="card mt-3">
                     <div class="card-body">
                         {{-- tables --}}
@@ -50,17 +46,13 @@
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $kegiatan->tanggal }}</td>
+                                            <td>{{ $kegiatan->kegiatan }}</td>
+                                            <td>{{ $kegiatan->hasil }}</td>
                                             <td>
-                                                @foreach ($kegiatan->detailkegiatans as $detail)
-                                                    {!! $loop->iteration . '. ' . $detail->kegiatan . '<br>' !!}
-                                                @endforeach
-                                            </td>
-                                            <td>
-                                                @foreach ($kegiatan->detailkegiatans as $detail)
-                                                    {!! $detail->hasil . '<br>' !!}
-                                                @endforeach
-                                            </td>
-                                            <td>
+                                                <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                                                    data-bs-target="#modalEdit{{ $loop->iteration }}">
+                                                    <i class="fa-regular fa-pen-to-square fa-lg"></i>
+                                                </button>
                                                 <button class="btn btn-sm btn-danger" data-bs-toggle="modal"
                                                     data-bs-target="#modalHapus{{ $loop->iteration }}">
                                                     <i class="fa-regular fa-trash-can fa-lg"></i>
@@ -69,7 +61,7 @@
                                         </tr>
 
                                         <!-- Hapus Data Kegiatan -->
-                                        <x-form_modal>
+                                        {{-- <x-form_modal>
                                             @slot('id', "modalHapus$loop->iteration")
                                             @slot('title', 'Hapus Data Kegiatan')
                                             @slot('route', route('kegiatan.destroy', $kegiatan->id))
@@ -81,7 +73,7 @@
                                             <p class="fs-6">Apakah anda yakin akan menghapus data kegiatan
                                                 <b>{{ $kegiatan->kegiatan }}</b>?
                                             </p>
-                                        </x-form_modal>
+                                        </x-form_modal> --}}
                                         {{-- / Hapus Data Kegiatan --}}
                                     @endif
                                 @endforeach
@@ -95,46 +87,9 @@
         </div>
     </div>
 
-    {{-- Modal Tambah Kegiatan --}}
-    <x-form_modal>
-        @slot('id', 'tambahKegiatan')
-        @slot('title', 'Tambah Kegiatan Hari Ini')
-        @slot('overflow', 'overflow-auto')
-        @slot('route', route('kegiatan.store'))
-
-        @csrf
-        <div class="row">
-            <input type="hidden" name="id_user" id="id_user" value="{{ auth()->user()->id }}">
-            <div class="mb-3">
-                <label for="tanggal" class="form-label text-dark">Tanggal</label>
-                <input type="date" class="form-control @error('tanggal') is-invalid @enderror" name="tanggal"
-                    id="tanggal" required>
-                @error('tanggal')
-                    <div class="invalid-feedback">
-                        {{ $message }}
-                    </div>
-                @enderror
-            </div>
-            <div id="input-container" class="mb-3">
-                <div class="input text-dark">
-                    <label for="kegiatan" class="form-label">Kegiatan</label>
-                    <input type="text" class="form-control kegiatan" name="kegiatan[]" id="kegiatan" autofocus required>
-                </div>
-                <div class="input text-dark mt-3">
-                    <label for="hasil" class="form-label">Hasil</label>
-                    <input type="text" class="form-control hasil" name="hasil[]" id="hasil">
-                </div>
-                <button type="button" class="btn btn-success mt-3 add-input">Tambah Kegiatan dan Hasil</button>
-            </div>
-        </div>
-    </x-form_modal>
-    {{-- / Modal Tambah Kegiatan --}}
-
-
-
 @endsection
 
-@section('scripts')
+{{-- @section('scripts')
     <script>
         $(document).ready(function() {
             // Tambah input
@@ -164,4 +119,4 @@
             });
         });
     </script>
-@endsection
+@endsection --}}

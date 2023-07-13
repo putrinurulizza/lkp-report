@@ -7,6 +7,7 @@ use App\Http\Controllers\KegiatanController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ManagementKegiatanController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -29,6 +30,8 @@ Route::prefix('/dashboard')->group(function () {
     Route::resource('/home', DashboardController::class)->middleware('auth');
 
     Route::resource('/kegiatan', KegiatanController::class)->except(['create', 'show', 'edit'])->middleware('auth');
+
+    Route::resource('/kegiatan/management', ManagementKegiatanController::class)->except(['create', 'show', 'edit'])->middleware('auth');
 
     Route::resource('/laporan', LaporanController::class)->except(['create', 'show', 'edit'])->middleware('auth');
 
