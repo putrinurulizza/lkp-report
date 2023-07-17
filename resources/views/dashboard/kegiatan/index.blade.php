@@ -22,12 +22,18 @@
         <div class="row ">
             <div class="col">
                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tambahKegiatan"><i
-                        class="fa-regular fa-plus me-2 me-2"></i>Tambah</button>
+                        class="fa-regular fa-plus me-2 "></i>Tambah</button>
                 <button class="btn btn-secondary text-light"
                     onclick="window.location.href='{{ route('management.index') }}'">
-                    <i class="fa-solid fa-eye me-2 me-2" aria-label="Close"></i>
+                    <i class="fa-solid fa-eye me-2 " aria-label="Close"></i>
                     Management
                 </button>
+                <form action="{{ route('kegiatan.export') }}" method="GET" class="float-end">
+                    <button class="btn btn-success text-light" type="submit">
+                        <i class="fa-solid fa-download me-2 " aria-label="Close"></i>
+                        Excel
+                    </button>
+                </form>
 
                 <div class="card mt-3">
                     <div class="card-body">

@@ -27,21 +27,23 @@ Route::controller(LoginController::class)->group(function () {
 });
 
 Route::prefix('/dashboard')->group(function () {
-    Route::resource('/home', DashboardController::class)->middleware('auth');
+    Route::resource('/home', DashboardController::class);
 
-    Route::resource('/kegiatan', KegiatanController::class)->except(['create', 'show', 'edit'])->middleware('auth');
+    Route::resource('/kegiatan', KegiatanController::class)->except(['create', 'show', 'edit']);
 
-    Route::resource('/kegiatan/management', ManagementKegiatanController::class)->except(['create', 'show', 'edit'])->middleware('auth');
+    Route::get('/kegiatan/export', [KegiatanController::class, 'exportExcel'])->name('kegiatan.export');
 
-    Route::resource('/laporan', LaporanController::class)->except(['create', 'show', 'edit'])->middleware('auth');
+    Route::resource('/kegiatan/management', ManagementKegiatanController::class)->except(['create', 'show', 'edit']);
 
-    Route::resource('/user', UserController::class)->except(['create', 'show', 'edit'])->middleware('auth');
-    Route::put('/user/{user}', [UserController::class, 'resetPasswordAdmin'])->name('user.resetPasswordAdmin')->middleware('auth');
+    Route::resource('/laporan', LaporanController::class)->except(['create', 'show', 'edit']);
 
-    Route::resource('/profile', ProfileController::class)->except(['create', 'show', 'edit'])->middleware('auth');
-    Route::put('/profile/{profile}', [ProfileController::class, 'update'])->name('profile.update')->middleware('auth');
-    Route::post('/profile/{profile}', [ProfileController::class, 'resetPasswordUser'])->name('profile.resetPasswordUser')->middleware('auth');
-});
+    Route::resource('/user', UserController::class)->except(['create', 'show', 'edit']);
+    Route::put('/user/{user}', [UserController::class, 'resetPasswordAdmin'])->name('user.resetPasswordAdmin');
+
+    Route::resource('/profile', ProfileController::class)->except(['create', 'show', 'edit']);
+    Route::put('/profile/{profile}', [ProfileController::class, 'update'])->name('profile.update');
+    Route::post('/profile/{profile}', [ProfileController::class, 'resetPasswordUser'])->name('profile.resetPasswordUser');
+})->middleware('auth');
 
 // Route::fallback(function () {
 //     return redirect()->route('login')->middleware('guest');
