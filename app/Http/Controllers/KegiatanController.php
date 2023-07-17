@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\detailKegiatan;
 use App\Models\Kegiatan;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\detailKegiatan;
 
 class KegiatanController extends Controller
 {
@@ -123,9 +124,15 @@ class KegiatanController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Kegiatan $kegiatan)
+    public function destroy(Request $request, Kegiatan $kegiatan)
     {
         try {
+            $kegiatans = detailKegiatan::where('id_kegiatan', $kegiatan->id)->get();
+
+            for($i = 0; $i < count($kegiatans); $i++){
+                detailKegiatan::destroy($kegiatans[$i]->id);
+            }
+
             Kegiatan::destroy($kegiatan->id);
         } catch (\Illuminate\Database\QueryException $e) {
             if ($e->getCode() == 23000) {

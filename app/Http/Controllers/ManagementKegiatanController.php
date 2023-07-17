@@ -55,16 +55,45 @@ class ManagementKegiatanController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, detailKegiatan $detail)
     {
-        //
+        try {
+            $rule = [
+                'tanggal' => 'required',
+            ];
+
+            $details = detailKegiatan::where('id', $request->id)->get();
+
+            $validateData = $request->validate($rule);
+            Kegiatan::where('id', $details[0]->id_kegiatan)->update($validateData);
+
+            $rules = [
+                'kegiatan' => 'required',
+                'hasil' => 'required'
+            ];
+
+            $validatedData = $request->validate($rules);
+
+            detailKegiatan::where('id', $request->id)->update($validatedData);
+            return redirect()->route('management.index')->with('success', "Data Kegiatan $detail->kegiatan berhasil diperbarui!");
+        } catch (\Illuminate\Validation\ValidationException $exception) {
+            return redirect()->route('management.index')->with('failed', 'Data gagal diperbarui! ' . $exception->getMessage());
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $kegiatan)
     {
-        //
+        try {
+            detailKegiatan::destroy($kegiatan->id);
+        } catch (\Illuminate\Database\QueryException $e) {
+            if ($e->getCode() == 23000) {
+                //SQLSTATE[23000]: Integrity constraint violation
+                return redirect()->route('management.index')->with('failed', "Detail Kegiatan $kegiatan->kegiatan tidak dapat dihapus, karena sedang digunakan pada tabel lain!");
+            }
+        }
+        return redirect()->route('management.index')->with('success', "Detail Kegiatan $kegiatan->kegiatan berhasil dihapus!");
     }
 }

@@ -41,11 +41,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($kegiatans as $kegiatan)
-                                    @if ($kegiatan->id_user == auth()->user()->id)
+                                @foreach ($details as $kegiatan)
+                                    @if ($kegiatan->kegiatans->id_user == auth()->user()->id)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $kegiatan->tanggal }}</td>
+                                            <td>{{ $kegiatan->kegiatans->tanggal }}</td>
                                             <td>{{ $kegiatan->kegiatan }}</td>
                                             <td>{{ $kegiatan->hasil }}</td>
                                             <td>
@@ -61,20 +61,73 @@
                                         </tr>
 
                                         <!-- Hapus Data Kegiatan -->
-                                        {{-- <x-form_modal>
+                                        <x-form_modal>
                                             @slot('id', "modalHapus$loop->iteration")
                                             @slot('title', 'Hapus Data Kegiatan')
-                                            @slot('route', route('kegiatan.destroy', $kegiatan->id))
+                                            @slot('route', route('management.destroy', $kegiatan->id))
                                             @slot('method') @method('delete') @endslot
                                             @slot('btnPrimaryClass', 'btn-outline-danger')
                                             @slot('btnSecondaryClass', 'btn-secondary')
                                             @slot('btnPrimaryTitle', 'Hapus')
 
+                                            <input type="hidden" name="id" value="{{ $kegiatan->id }}">
                                             <p class="fs-6">Apakah anda yakin akan menghapus data kegiatan
                                                 <b>{{ $kegiatan->kegiatan }}</b>?
                                             </p>
-                                        </x-form_modal> --}}
+                                        </x-form_modal>
                                         {{-- / Hapus Data Kegiatan --}}
+
+                                        <!-- Edit Data Kegiatan -->
+                                        <x-form_modal>
+                                            @slot('id', "modalEdit$loop->iteration")
+                                            @slot('title', 'Edit Data Kegiatan')
+                                            @slot('route', route('management.update', $kegiatan->id))
+                                            @slot('method') @method('put') @endslot
+                                            @slot('btnPrimaryClass', 'btn-outline-warning')
+                                            @slot('btnSecondaryClass', 'btn-secondary text-light')
+                                            @slot('btnPrimaryTitle', 'Edit')
+
+                                            @csrf
+                                            <div class="row">
+                                                <input type="hidden" name="id" value="{{ $kegiatan->id }}">
+                                                <div class="mb-3">
+                                                    <label for="tanggal" class="form-label text-dark">Tanggal</label>
+                                                    <input type="date"
+                                                        class="form-control @error('tanggal') is-invalid @enderror"
+                                                        name="tanggal" id="tanggal"
+                                                        value="{{ old('tanggal', $kegiatan->kegiatans->tanggal) }}"
+                                                        required>
+                                                    @error('tanggal')
+                                                        <div class="invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                    @enderror
+                                                </div>
+                                                <div class="input text-dark mb-3">
+                                                    <label for="kegiatan" class="form-label">Kegiatan</label>
+                                                    <input type="text" class="form-control kegiatan" name="kegiatan"
+                                                        id="kegiatan" value="{{ old('kegiatan', $kegiatan->kegiatan) }}"
+                                                        autofocus required>
+                                                    @error('kegiatan')
+                                                        <div class="invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                    @enderror
+                                                </div>
+                                                <div class="input text-dark">
+                                                    <label for="hasil" class="form-label">Hasil</label>
+                                                    <input type="text" class="form-control hasil" name="hasil"
+                                                        id="hasil" value="{{ old('hasil', $kegiatan->hasil) }}"
+                                                        autofocus required>
+                                                    @error('hasil')
+                                                        <div class="invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                        </x-form_modal>
+                                        {{-- / Edit Data Kegiatan --}}
                                     @endif
                                 @endforeach
                             </tbody>

@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\detailKegiatan;
+use App\Models\Users;
 
 class Kegiatan extends Model
 {
