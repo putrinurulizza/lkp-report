@@ -23,7 +23,7 @@ class UserFactory extends Factory
             'nama' => 'Putri Nurul Izza',
             'jabatan' => 'Magang',
             'bidang' => 'TIK',
-            'password' => Hash::make('admin'),
+            'password' => Hash::make('puput'),
             'is_admin' => 1,
             'remember_token' => Str::random(10),
         ];

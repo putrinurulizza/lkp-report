@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ExcelExport;
 use App\Models\detailKegiatan;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+use App\Models\Kegiatan;
+use Maatwebsite\Excel\Facades\Excel;
 
 class LaporanController extends Controller
 {
@@ -12,14 +16,19 @@ class LaporanController extends Controller
      */
     public function index()
     {
-        $kegiatans = detailKegiatan::with('kegiatans')->get();
+        $bulanIni = Carbon::now()->format('m');
+        $kegiatans = Kegiatan::with('detailkegiatans')->whereMonth('tanggal', $bulanIni)->get();
+        $details = detailKegiatan::with('kegiatans')->get();
         return view(
             'dashboard.laporan.index',
-            [
-                'kegiatans' => $kegiatans
-            ]
-        );
+        )->with(compact('kegiatans', 'details'));
     }
+
+    public function exportExcel()
+    {
+        return Excel::download(new ExcelExport, 'kegiatans.xlsx');
+    }
+
 
     /**
      * Show the form for creating a new resource.

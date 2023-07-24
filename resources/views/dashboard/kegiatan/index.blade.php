@@ -28,12 +28,6 @@
                     <i class="fa-solid fa-eye me-2 " aria-label="Close"></i>
                     Management
                 </button>
-                <form action="{{ route('kegiatan.export') }}" method="GET" class="float-end">
-                    <button class="btn btn-success text-light" type="submit">
-                        <i class="fa-solid fa-download me-2 " aria-label="Close"></i>
-                        Excel
-                    </button>
-                </form>
 
                 <div class="card mt-3">
                     <div class="card-body">

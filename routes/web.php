@@ -31,7 +31,7 @@ Route::prefix('/dashboard')->group(function () {
 
     Route::resource('/kegiatan', KegiatanController::class)->except(['create', 'show', 'edit']);
 
-    Route::get('/kegiatan/export', [KegiatanController::class, 'exportExcel'])->name('kegiatan.export');
+    Route::get('/laporan/export', [LaporanController::class, 'exportExcel'])->name('laporan.export');
 
     Route::resource('/kegiatan/management', ManagementKegiatanController::class)->except(['create', 'show', 'edit']);
 
