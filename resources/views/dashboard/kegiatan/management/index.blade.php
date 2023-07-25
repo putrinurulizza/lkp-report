@@ -53,10 +53,10 @@
                                                     data-bs-target="#modalEdit{{ $loop->iteration }}">
                                                     <i class="fa-regular fa-pen-to-square fa-lg"></i>
                                                 </button>
-                                                <button class="btn btn-sm btn-danger" data-bs-toggle="modal"
+                                                {{-- <button class="btn btn-sm btn-danger" data-bs-toggle="modal"
                                                     data-bs-target="#modalHapus{{ $loop->iteration }}">
                                                     <i class="fa-regular fa-trash-can fa-lg"></i>
-                                                </button>
+                                                </button> --}}
                                             </td>
                                         </tr>
 
@@ -78,7 +78,7 @@
                                         {{-- / Hapus Data Kegiatan --}}
 
                                         <!-- Edit Data Kegiatan -->
-                                        <x-form_modal>
+                                        {{-- <x-form_modal>
                                             @slot('id', "modalEdit$loop->iteration")
                                             @slot('title', 'Edit Data Kegiatan')
                                             @slot('route', route('management.update', $kegiatan->id))
@@ -126,7 +126,7 @@
                                                     @enderror
                                                 </div>
                                             </div>
-                                        </x-form_modal>
+                                        </x-form_modal> --}}
                                         {{-- / Edit Data Kegiatan --}}
                                     @endif
                                 @endforeach

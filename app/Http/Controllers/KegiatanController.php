@@ -2,13 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\ExcelExport;
-use Carbon\Carbon;
 use App\Models\Kegiatan;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\detailKegiatan;
-use Maatwebsite\Excel\Facades\Excel;
 
 class KegiatanController extends Controller
 {
@@ -17,17 +13,11 @@ class KegiatanController extends Controller
      */
     public function index()
     {
-        $bulanIni = Carbon::now()->format('m');
-        $kegiatans = Kegiatan::with('detailkegiatans')->whereMonth('tanggal', $bulanIni)->get();
+        $kegiatans = Kegiatan::with('detailkegiatans')->get();
         $details = detailKegiatan::with('kegiatans')->get();
         return view(
             'dashboard.kegiatan.index',
         )->with(compact('kegiatans', 'details'));
-    }
-
-    public function exportExcel()
-    {
-        return Excel::download(new ExcelExport, 'kegiatans.xlsx');
     }
 
     /**

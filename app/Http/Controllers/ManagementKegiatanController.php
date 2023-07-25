@@ -86,14 +86,14 @@ class ManagementKegiatanController extends Controller
      */
     public function destroy(Request $kegiatan)
     {
-        try {
-            detailKegiatan::destroy($kegiatan->id);
-        } catch (\Illuminate\Database\QueryException $e) {
-            if ($e->getCode() == 23000) {
-                //SQLSTATE[23000]: Integrity constraint violation
-                return redirect()->route('management.index')->with('failed', "Detail Kegiatan $kegiatan->kegiatan tidak dapat dihapus, karena sedang digunakan pada tabel lain!");
-            }
-        }
-        return redirect()->route('management.index')->with('success', "Detail Kegiatan $kegiatan->kegiatan berhasil dihapus!");
+        // try {
+        //     detailKegiatan::destroy($kegiatan->id);
+        // } catch (\Illuminate\Database\QueryException $e) {
+        //     if ($e->getCode() == 23000) {
+        //         //SQLSTATE[23000]: Integrity constraint violation
+        //         return redirect()->route('management.index')->with('failed', "Detail Kegiatan $kegiatan->kegiatan tidak dapat dihapus, karena sedang digunakan pada tabel lain!");
+        //     }
+        // }
+        // return redirect()->route('management.index')->with('success', "Detail Kegiatan $kegiatan->kegiatan berhasil dihapus!");
     }
 }
