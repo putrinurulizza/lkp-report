@@ -2,20 +2,19 @@
 
 namespace App\Exports;
 
+use Carbon\Carbon;
 use App\Models\Kegiatan;
 use Maatwebsite\Excel\Events\AfterSheet;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithStyles;
+use PhpOffice\PhpSpreadsheet\Style\Border;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
-use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
-use PhpOffice\PhpSpreadsheet\Style\Alignment;
-use Carbon\Carbon;
-use PhpOffice\PhpSpreadsheet\Style\Border;
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Style\Font;
+use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 
 
 class ExcelExport implements FromCollection, WithHeadings, ShouldAutoSize, WithStyles, WithColumnFormatting, WithEvents
@@ -25,9 +24,11 @@ class ExcelExport implements FromCollection, WithHeadings, ShouldAutoSize, WithS
      */
     public function collection()
     {
-        $kegiatans = Kegiatan::with('detailkegiatans')->orderBy('tanggal', 'ASC')->get();
+        $targetYear = Carbon::now()->format('Y');
+        $targetMonth = Carbon::now()->format('m');
+        $kegiatans = Kegiatan::with(['detailkegiatans', 'users'])->whereYear('tanggal', $targetYear)->whereMonth('tanggal', $targetMonth)->where('id_user', auth()->user()->id)->orderBy('tanggal', 'ASC')->get();
 
-        return $kegiatans->map(function ($kegiatan) {
+        return $kegiatans->map(function ($kegiatan, $index) {
             $tanggal = $kegiatan->tanggal; // Mengambil tanggal dalam format 'Y-m-d'
             $tanggal = Carbon::parse($tanggal)->locale('id')->isoFormat('dddd, DD MMMM YYYY');
 
@@ -39,29 +40,37 @@ class ExcelExport implements FromCollection, WithHeadings, ShouldAutoSize, WithS
                 return $detailKegiatan->kegiatan; // Mengambil data 'hasil' dari model DetailKegiatan
             })->implode(', ');
 
-            return [
+
+
+            $data = [
+                'No' => $index + 1,
                 'HARI/TANGGAL' => $tanggal,
                 'RINCIAN KEGIATAN' => $Kegiatans,
                 'HASIL' => $hasil,
+
             ];
+
+            return $data;
         });
     }
 
 
     public function headings(): array
     {
+        $title = 'YOUR TITLE HERE';
         return [
-            // 'NO',
-            'HARI/TANGGAL',
-            'RINCIAN KEGIATAN',
-            'HASIL',
+            $title,
         ];
     }
 
     public function styles(Worksheet $sheet)
     {
+        $highestRow = $sheet->getHighestRow();
+        $highestColumn = $sheet->getHighestColumn();
+        $range = 'A1:' . $highestColumn . $highestRow;
+
         return [
-            1 => [
+            $range => [
                 'alignment' => [
                     'horizontal' => Alignment::HORIZONTAL_CENTER, // Menengahkan teks di tengah kolom
                 ],
@@ -72,35 +81,86 @@ class ExcelExport implements FromCollection, WithHeadings, ShouldAutoSize, WithS
         ];
     }
 
-
-    // public function styles(Worksheet $sheet)
-    // {
-    //     return [
-    //         1 => ['font' => ['bold' => true]], // Menerapkan gaya bold pada baris pertama (judul kolom)
-    //     ];
-    // }
-
     public function columnFormats(): array
     {
         return [
-            'B' => '@', // Mengatur format kolom B sebagai teks (opsional)
+            'D' => '@', // Mengatur format kolom B sebagai teks (opsional)
         ];
     }
 
-    // public function registerEvents(): array
-    // {
-    //     return [
-    //         AfterSheet::class => function (AfterSheet $event) {
-    //             $event->sheet->setCellValue('c' . ($event->sheet->getHighestRow() + 2), '(           )'); // Menambahkan tanda tangan pada kolom D di baris terakhir
-    //             $event->sheet->setCellValue('c' . ($event->sheet->getHighestRow() + 1), 'Tanda Tangan'); // Menambahkan tanda tangan pada kolom D di baris terakhir
-    //         },
-    //     ];
-    // }
-
     public function registerEvents(): array
     {
+
         return [
             AfterSheet::class => function (AfterSheet $event) {
+                $user = auth()->user()->nama ;
+                $jabatan = auth()->user()->jabatan ;
+                $bidang = auth()->user()->bidang ;
+
+                $event->sheet->getColumnDimension('A')->setWidth(10); // Kolom A
+                $event->sheet->getColumnDimension('B')->setWidth(40); // Kolom B
+                $event->sheet->getColumnDimension('C')->setWidth(90); // Kolom C
+                $event->sheet->getColumnDimension('D')->setWidth(30); // Kolom D
+
+                // title
+                $event->sheet->mergeCells('A1:D1');
+                $event->sheet->mergeCells('A2:D2');
+                $event->sheet->mergeCells('A3:D3');
+                $event->sheet->mergeCells('C5:C6');
+                $event->sheet->mergeCells('D5:D6');
+
+                $event->sheet->getStyle('A1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+                // Set value for the title (three lines)
+                $titleLines = [
+                    'LAPORAN KINERJA TENAGA PENDUKUNG / TENAGA AHLI',
+                    'DINAS KOMINFO PROVINSI SUMATERA UTARA',
+                    'BULAN APRIL TAHUN 2023',
+                ];
+                foreach ($titleLines as $index => $titleLine) {
+                    $rowIndex = $index + 1;
+                    $event->sheet->setCellValue('A' . $rowIndex, $titleLine);
+                }
+
+                // Auto size all columns
+                $columns = range('A', 'D');
+                foreach ($columns as $column) {
+                    $event->sheet->getColumnDimension($column)->setAutoSize(true);
+                }
+                // end title
+
+                // header
+                // Set value for headers
+                $data = $this->collection();
+                $event->sheet->setCellValue('A5', 'NAMA');
+                $event->sheet->setCellValue('B5', $user);
+                $event->sheet->setCellValue('A6', 'JABATAN');
+                $event->sheet->setCellValue('B6', $jabatan);
+                $event->sheet->setCellValue('C5', 'BIDANG');
+                $event->sheet->setCellValue('D5', $bidang);
+                $event->sheet->setCellValue('A7', 'No');
+                $event->sheet->setCellValue('B7', 'HARI/TANGGAL');
+                $event->sheet->setCellValue('C7', 'RINCIAN KEGIATAN');
+                $event->sheet->setCellValue('D7', 'HASIL');
+
+                // Auto size all columns
+                $columns = range('A', 'D'); // A sampai D karena ada 4 kolom
+                foreach ($columns as $column) {
+                    $event->sheet->getColumnDimension($column)->setAutoSize(true);
+                }
+                // end Header
+
+                // Data Kegiatan
+                $rowIndex = 8; // Mulai dari baris ke-10 (setelah header)
+
+                foreach ($data as $row) {
+                    $event->sheet->setCellValue('A' . $rowIndex, $row['No']);
+                    $event->sheet->setCellValue('B' . $rowIndex, $row['HARI/TANGGAL']);
+                    $event->sheet->setCellValue('C' . $rowIndex, $row['RINCIAN KEGIATAN']);
+                    $event->sheet->setCellValue('D' . $rowIndex, $row['HASIL']);
+                    $rowIndex++;
+                }
+                // data Kegiatan
+
                 $highestRow = $event->sheet->getHighestRow();
                 $highestColumn = $event->sheet->getHighestColumn();
                 $range = 'A1:' . $highestColumn . $highestRow;
@@ -123,8 +183,6 @@ class ExcelExport implements FromCollection, WithHeadings, ShouldAutoSize, WithS
                     ],
                 ]);
 
-                // $event->sheet->getStartRow($highestRow . ($highestRow + 1), 'LAPORAN KINERJA TENAGA PENDUKUNG / TENAGA AHLI');
-
                 $currentDate = Carbon::now()->locale('id')->format('d F Y');
                 $currentDate = $this->replaceMonthInIndonesian($currentDate);
                 $event->sheet->getStyle($highestColumn . ($highestRow + 2))->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
@@ -144,6 +202,27 @@ class ExcelExport implements FromCollection, WithHeadings, ShouldAutoSize, WithS
 
                 $event->sheet->getStyle($highestColumn . ($highestRow + 12))->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
                 $event->sheet->setCellValue($highestColumn . ($highestRow + 12), 'NIP. 19720303 199803 2 006');
+
+                $event->sheet->getStyle('B' . ($highestRow + 5))->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+                $event->sheet->setCellValue('B' . ($highestRow + 5), 'Network Adminstrator Muda');
+
+                $event->sheet->getStyle('B' . ($highestRow + 10))->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+                $event->sheet->setCellValue('B' . ($highestRow + 10), 'Mhd Agung Prasetyo');
+
+                // Merge cells for the title
+                $highestColumn = $event->sheet->getHighestColumn();
+                $event->sheet->mergeCells('A1:' . $highestColumn . '1');
+
+                // // Center-align the title
+                // $titleCell = Coordinate::stringFromColumnIndex(1) . '1'; // Cell 'A1'
+                // $event->sheet->getStyle($titleCell)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+
+                // // Apply style to the title (you can customize this as needed)
+                // $event->sheet->getStyle($titleCell)->applyFromArray([
+                //     'font' => [
+                //         'size' => 14, // Example font size, you can adjust it
+                //     ],
+                // ]);
             },
         ];
     }

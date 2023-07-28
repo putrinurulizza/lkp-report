@@ -31,7 +31,7 @@ Route::prefix('/dashboard')->group(function () {
 
     Route::resource('/kegiatan', KegiatanController::class)->except(['create', 'show', 'edit'])->middleware('auth');
 
-    Route::get('/kegiatan/export', [KegiatanController::class, 'exportExcel'])->name('kegiatan.export')->middleware('auth');
+    Route::get('/laporan/export', [LaporanController::class, 'exportExcel'])->name('laporan.export')->middleware('auth');
 
     Route::resource('/kegiatan/management', ManagementKegiatanController::class)->except(['create', 'show', 'edit'])->middleware('auth');
 

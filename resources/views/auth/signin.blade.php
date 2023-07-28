@@ -107,13 +107,14 @@
     <script src="{{ asset('js/theme.min.js') }}"></script>
 
     <script>
-        $(document).ready(function() {
-            $('#showpsd').click(function() {
-                $(this).is(':checked') ? $('#password').attr('type', 'text') : $('#password').attr('type',
-                    'password');
-            }); 
+        const passwordInput = document.getElementById("password");
+        const showPasswordCheckbox = document.getElementById("showpsd");
+
+        showPasswordCheckbox.addEventListener("change", function() {
+            passwordInput.type = this.checked ? "text" : "password";
         });
     </script>
+
 </body>
 
 </html>
