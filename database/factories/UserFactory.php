@@ -19,11 +19,11 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'username' => 'puput',
-            'nama' => 'Putri Nurul Izza',
-            'jabatan' => 'Magang',
-            'bidang' => 'TIK',
-            'password' => Hash::make('puput'),
+            'username' => 'superadmin',
+            'nama' => 'Super Admin',
+            'jabatan' => 'Super Admin',
+            'bidang' => 'Super Admin',
+            'password' => Hash::make('superadmin'),
             'is_admin' => 1,
             'remember_token' => Str::random(10),
         ];

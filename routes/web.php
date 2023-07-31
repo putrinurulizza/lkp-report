@@ -48,11 +48,3 @@ Route::prefix('/dashboard')->group(function () {
 // Route::fallback(function () {
 //     return redirect()->route('login')->middleware('guest');
 // });
-
-// Route::fallback(function () {
-//     if (session('url.intended')) {
-//         return redirect(session('url.intended'));
-//     } else {
-//         return redirect()->route('login');
-//     }
-// });

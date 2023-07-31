@@ -61,7 +61,7 @@
                                         </tr>
 
                                         <!-- Hapus Data Kegiatan -->
-                                        <x-form_modal>
+                                        {{-- <x-form_modal>
                                             @slot('id', "modalHapus$loop->iteration")
                                             @slot('title', 'Hapus Data Kegiatan')
                                             @slot('route', route('management.destroy', $kegiatan->id))
@@ -74,11 +74,11 @@
                                             <p class="fs-6">Apakah anda yakin akan menghapus data kegiatan
                                                 <b>{{ $kegiatan->kegiatan }}</b>?
                                             </p>
-                                        </x-form_modal>
+                                        </x-form_modal> --}}
                                         {{-- / Hapus Data Kegiatan --}}
 
                                         <!-- Edit Data Kegiatan -->
-                                        {{-- <x-form_modal>
+                                        <x-form_modal>
                                             @slot('id', "modalEdit$loop->iteration")
                                             @slot('title', 'Edit Data Kegiatan')
                                             @slot('route', route('management.update', $kegiatan->id))
@@ -126,7 +126,7 @@
                                                     @enderror
                                                 </div>
                                             </div>
-                                        </x-form_modal> --}}
+                                        </x-form_modal>
                                         {{-- / Edit Data Kegiatan --}}
                                     @endif
                                 @endforeach

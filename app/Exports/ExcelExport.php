@@ -16,6 +16,7 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 
 
+
 class ExcelExport implements FromCollection, WithHeadings, ShouldAutoSize, WithStyles, WithColumnFormatting, WithEvents
 {
     /**
@@ -110,23 +111,27 @@ class ExcelExport implements FromCollection, WithHeadings, ShouldAutoSize, WithS
                 $titleLines = [
                     'LAPORAN KINERJA TENAGA PENDUKUNG / TENAGA AHLI',
                     'DINAS KOMINFO PROVINSI SUMATERA UTARA',
-                    'BULAN '. $currentMonthUpper .' TAHUN '. $currentYear,
+                    'BULAN ' . $currentMonthUpper . ' TAHUN ' . $currentYear,
                 ];
                 foreach ($titleLines as $index => $titleLine) {
                     $rowIndex = $index + 1;
                     $event->sheet->setCellValue('A' . $rowIndex, $titleLine);
+
+                    $event->sheet->getStyle('A' . $rowIndex)->getAlignment()
+                        ->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+                        ->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
                 }
 
                 // header
                 // Set value for headers
                 $data = $this->collection();
-                $event->sheet->setCellValue('A4', ' ' );
+                $event->sheet->setCellValue('A4', ' ');
                 $event->sheet->setCellValue('B4', ' ');
                 $event->sheet->setCellValue('D4', ' ');
                 $event->sheet->setCellValue('C4', ' ');
-                $event->sheet->setCellValue('A5', 'NAMA : ' . $user);
-                $event->sheet->setCellValue('A6', 'JABATAN : ' . $jabatan);
-                $event->sheet->setCellValue('C5', 'BIDANG :' . $bidang);
+                $event->sheet->setCellValue('A5', 'NAMA           :      ' . $user);
+                $event->sheet->setCellValue('A6', 'JABATAN      :      ' . $jabatan);
+                $event->sheet->setCellValue('C5', '     BIDANG :      ' . $bidang);
                 $event->sheet->setCellValue('A7', 'No');
                 $event->sheet->setCellValue('B7', 'HARI/TANGGAL');
                 $event->sheet->setCellValue('C7', 'RINCIAN KEGIATAN');
@@ -175,6 +180,27 @@ class ExcelExport implements FromCollection, WithHeadings, ShouldAutoSize, WithS
                         'name' => 'Bookman Old Style',
                         'size' => 12,
                     ],
+                    'alignment' => [
+                        'horizontal' => Alignment::HORIZONTAL_LEFT,
+                        'vertical' => Alignment::VERTICAL_CENTER,
+                    ],
+                ]);
+
+                $event->sheet->getStyle('A7:D7')->applyFromArray([
+                    'alignment' => [
+                        'horizontal' => Alignment::HORIZONTAL_CENTER,
+                        'vertical' => Alignment::VERTICAL_CENTER,
+                    ],
+                ]);
+
+                $event->sheet->getStyle('A8:A8000')->applyFromArray([
+                    'alignment' => [
+                        'horizontal' => Alignment::HORIZONTAL_CENTER,
+                        'vertical' => Alignment::VERTICAL_CENTER,
+                    ],
+                ]);
+
+                $event->sheet->getStyle('B8:B8000')->applyFromArray([
                     'alignment' => [
                         'horizontal' => Alignment::HORIZONTAL_CENTER,
                         'vertical' => Alignment::VERTICAL_CENTER,
